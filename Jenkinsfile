@@ -1,16 +1,14 @@
 node {
-    // def project = 'k8s-workshop-203112'
     def appName = 'gceme'
     def feSvcName = "${appName}-frontend"
     def username = "testuserwsk8s"
-    echo "${env.BRANCH_NAME}"
-    echo "${env.BUILD_NUMBER}"
-    
+    def imageTag = ""    
+
     checkout scm
 
     stage('Preparation') {
         sh("grep 'version string' main.go | cut -d'\"' -f2 > ${env.VERSION}")
-        def imageTag = "${username}/${appName}:${env.BRANCH_NAME}-${env.VERSION}-${env.BUILD_NUMBER}"
+        imageTag = "${username}/${appName}:${env.BRANCH_NAME}-${env.VERSION}-${env.BUILD_NUMBER}"
         sh("curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.9.7/bin/linux/amd64/kubectl")
         sh("chmod +x ./kubectl && mv kubectl /usr/local/sbin")
         sh("curl -LO https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64")
