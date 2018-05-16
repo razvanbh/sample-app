@@ -43,7 +43,7 @@ node {
             // Roll out to production
             case "master":
                 // Change deployed image in canary to the one we just built
-                sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
+                sh("kubectl create ns production")
                 sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/production/*.yaml")
                 sh("kubectl --namespace=production apply -f k8s/services/")
                 sh("kubectl --namespace=production apply -f k8s/production/")
