@@ -2,13 +2,12 @@ node {
     def appName = 'gceme'
     def feSvcName = "${appName}-frontend"
     def username = "testuserwsk8s"
-    def imageTag = ""    
 
     checkout scm
+    sh("grep 'version string' main.go | cut -d'\"' -f2 > ${env.VERSION}")
+    def imageTag = "${username}/${appName}:${env.BRANCH_NAME}-${env.VERSION}-${env.BUILD_NUMBER}"
 
     stage('Preparation') {
-        sh("grep 'version string' main.go | cut -d'\"' -f2 > ${env.VERSION}")
-        imageTag = "${username}/${appName}:${env.BRANCH_NAME}-${env.VERSION}-${env.BUILD_NUMBER}"
         sh("curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.9.7/bin/linux/amd64/kubectl")
         sh("chmod +x ./kubectl && mv kubectl /usr/local/sbin")
         sh("curl -LO https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64")
