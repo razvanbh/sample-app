@@ -1,6 +1,6 @@
 node {
     // def project = 'k8s-workshop-203112'
-    def appName = 'sample-app'
+    def appName = 'gceme'
     def feSvcName = "${appName}-frontend"
     def username = "testuserwsk8s"
     // def imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
@@ -11,6 +11,8 @@ node {
     stage('Preparation') {
         sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.9.7/bin/linux/amd64/kubectl'
         sh 'chmod +x ./kubectl && mv kubectl /usr/local/sbin'
+        sh 'curl -LO https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64'
+        sh 'chmod +x ./jq-linux64 && mv jq-linux64 /usr/local/sbin/jq'
     }
 
     stage('Build image') {
