@@ -5,11 +5,12 @@ node {
     // def imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
     def imageTag = "registry-docker-registry/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
     
-    checkout scm
+    // checkout scm
 
     stage('Preparation') {
         sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.9.7/bin/linux/amd64/kubectl'
         sh 'chmod +x ./kubectl && mv kubectl /usr/local/sbin'
+        git url:"https://bitbucket.org/runtime32/sample-app.git"
     }
 
     stage('Build image') {
