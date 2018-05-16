@@ -39,7 +39,7 @@ node {
                 sh("kubectl --namespace=production apply -f k8s/canary/")
                 sh("sleep 4") 
                 sh ("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'`")
-            break
+                break
 
             // Roll out to production
             case "master":
