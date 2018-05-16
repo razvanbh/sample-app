@@ -37,8 +37,8 @@ node {
                 sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/canary/*.yaml")
                 sh("kubectl --namespace=production apply -f k8s/services/")
                 sh("kubectl --namespace=production apply -f k8s/canary/")
-                sh("sleep 4") 
-                sh ("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'`")
+                sh("sleep 4")
+				sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'`")
                 break
 
             // Roll out to production
@@ -49,7 +49,7 @@ node {
                 sh("kubectl --namespace=production apply -f k8s/services/")
                 sh("kubectl --namespace=production apply -f k8s/production/")
                 sh("sleep 4")
-                sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'`")
+				sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'`")
                 break
 
             // Roll out a dev environment
