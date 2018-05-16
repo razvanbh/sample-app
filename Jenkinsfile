@@ -1,16 +1,15 @@
 node {
-    def project = 'k8s-workshop-203112'
-    def appName = 'gceme'
+    // def project = 'k8s-workshop-203112'
+    def appName = 'sample-app'
     def feSvcName = "${appName}-frontend"
     // def imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-    def imageTag = "registry-docker-registry/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+    def imageTag = "${username}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
     
-    // checkout scm
+    checkout scm
 
     stage('Preparation') {
         sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.9.7/bin/linux/amd64/kubectl'
         sh 'chmod +x ./kubectl && mv kubectl /usr/local/sbin'
-        git url:"https://bitbucket.org/runtime32/sample-app.git"
     }
 
     stage('Build image') {
@@ -22,8 +21,7 @@ node {
     }
 
     stage('Push image to registry') {
-        // sh("docker login -u oauth2accesstoken -p  gcr.io")
-        sh("docker login -u docker -p docker registry-docker-registry")
+        sh("docker login -u testuserwsk8s -p cacamaca32")
         sh("docker push ${imageTag}")
     }
 
