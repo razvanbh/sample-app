@@ -2,6 +2,7 @@ node {
     // def project = 'k8s-workshop-203112'
     def appName = 'sample-app'
     def feSvcName = "${appName}-frontend"
+    def username = "testuserwsk8s"
     // def imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
     def imageTag = "${username}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
     
