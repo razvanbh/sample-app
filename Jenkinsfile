@@ -22,9 +22,9 @@ node {
 
     stage('Push image to registry') {
         withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
-            docker-user = env.USERNAME
-            docker-password = env.PASSWORD
-            sh("docker login -u ${docker-user} -p ${docker-password}")
+            dockerUser = env.USERNAME
+            dockerPassword = env.PASSWORD
+            sh("docker login -u ${dockerUser} -p ${dockerPassword}")
         }
         sh("docker push ${imageTag}")
     }
