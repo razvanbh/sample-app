@@ -1,8 +1,6 @@
 node {
     def appName = 'plasma-torus-204511'
     def feSvcName = "${appName}-frontend"
-    def username = "razvanbh"
-    def password = "39udPra6wGsVGngM"
     def imageTag = "${username}/${appName}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
     checkout scm
@@ -21,7 +19,11 @@ node {
     }
 
     stage('Push image to registry') {
-        sh("docker login -u ${username} -p ${password}")
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+            def docker-user = env.USERNAME
+            def docker-password = env.PASSWORD
+            sh("docker login -u ${docker-user} -p ${docker-password}")
+        }
         sh("docker push ${imageTag}")
     }
 
