@@ -1,9 +1,8 @@
 node {
     def appName = 'plasma-torus-204511'
     def feSvcName = "${appName}-frontend"
+    def username = 'razvanbh'
     def imageTag = "${username}/${appName}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-    def dockerUser = ''
-    def dockerPassword = ''
 
     checkout scm
 
