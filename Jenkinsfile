@@ -24,6 +24,7 @@ node {
         stage('Push image to registry') {
             sh("docker login -u ${USER} -p ${PASS}")
             sh("docker push ${imageTag}")
+        }
     }
     
 
