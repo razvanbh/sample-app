@@ -1,8 +1,6 @@
 node {
-    def appName = 'plasma-torus-204511'
+    def appName = 'gceme'
     def feSvcName = "${appName}-frontend"
-    def username = 'razvanbh'
-    def imageTag = "${username}/${appName}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
     checkout scm
 
@@ -11,15 +9,17 @@ node {
         sh("chmod +x ./kubectl && mv kubectl /usr/local/sbin")
     }
 
-    stage('Build image') {
-        sh("docker build -t ${imageTag} .")
-    }
-
-    stage('Run Go tests') {
-        sh("docker run ${imageTag} go test")
-    }
-
     withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+        def imageTag = "${USER}/${appName}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        
+        stage('Build image') {
+            sh("docker build -t ${imageTag} .")
+        }
+
+        stage('Run Go tests') {
+            sh("docker run ${imageTag} go test")
+        }
+        
         stage('Push image to registry') {
             sh("docker login -u ${USER} -p ${PASS}")
             sh("docker push ${imageTag}")
