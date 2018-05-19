@@ -1,6 +1,7 @@
 node {
     def appName = 'gceme'
     def feSvcName = "${appName}-frontend"
+    def imageTag =''
 
     checkout scm
 
@@ -10,7 +11,7 @@ node {
     }
 
     withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-        def imageTag = "${USER}/${appName}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        imageTag = "${USER}/${appName}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
         
         stage('Build image') {
             sh("docker build -t ${imageTag} .")
