@@ -1,8 +1,8 @@
 node {
-    def appName = 'gceme'
+    def appName = 'plasma-torus-204511'
     def feSvcName = "${appName}-frontend"
-    def username = "testuserwsk8s"
-    def password = "cacamaca32"
+    def username = "razvanbh"
+    def password = "39udPra6wGsVGngM"
     def imageTag = "${username}/${appName}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
     checkout scm
